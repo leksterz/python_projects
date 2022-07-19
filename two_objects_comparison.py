@@ -31,7 +31,7 @@ def schedule_function(date):
 
         if (proceed == "yes"):
             i = 0
-            req = ["user1", []]
+            req = ["user2", []]
             print("\nplease indicate which time slots are you interested in: ")
             while i < len(availability["schedule"]):                     
                 day = availability["schedule"][i][1]          
@@ -64,6 +64,10 @@ def schedule_function(date):
                 requests["schedule"].append(req)
             
             print(requests)
+            print(availability)
+
+            print("\n awesome, thanks!")
+            print("we'll get back to you shortly about confirmation!")
             # conditional statement -- if yes then we store the request for that time slot
             # inside the availability object, specifically for the 
         
@@ -82,8 +86,24 @@ def schedule_function(date):
 
 schedule_function(r_date_input)
 
-# 
-# def booking_function():
+
+def booking_function(date):
+    # first part returns all requests
+    if (availability["date"]==date):
+        i = 0
+        print("\nHERE ARE ALL THE REQUESTS FOR TIMES: \n")
+        while i < len(requests["schedule"]):
+            print(f'{requests["schedule"][i][0]} has requested these slots \n{requests["schedule"][i][1]}\n')
+            i = i + 1
+        proceed = input("\nwould you like to proceed with booking these? indicate with 'yes' or 'no': ")
+
+    # second part -- if admin proceeds, then ask him which request
+    # displays all requests and tag specific one. 
+    # tagged one changes the availability object
+    # also discards all requests that also had similar times
+r_date_input = input("\n\nPlease select the date of your session ")
+
+booking_function(r_date_input)
 
 
 
