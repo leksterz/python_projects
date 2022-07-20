@@ -14,7 +14,7 @@ availability = {"date": "a", "schedule": [["open", "1 pm - 2 pm"],["booked", "2 
 # the admin will have the ability to look through the requests, and for 
 # a particular user, accept it. This will adjust the schedule for the times the
 # request was for, and reject the requests that were for similar times
-requests = {"date": "a", "schedule": [["user1", ["1 pm - 2 pm", "3 pm - 4 pm"]]]}
+requests = {"date": "a", "schedule": [["user1", ["1 pm - 2 pm", "3 pm - 4 pm"]], ["user3", ["1 pm - 2 pm", "4 pm - 5 pm"]], ["user4", ["4 pm - 5 pm"]]]}
 
 # create a request function
 # user is presented with available dates
@@ -56,17 +56,11 @@ def schedule_function(date):
             while i < len(req[1]):
                 print(req[1][i])
                 i = i + 1
-            print(req)
-            print(requests)
             booking_confirm = input("\nwould you like to submit this booking request? indicate with 'yes' or 'no': ")
             
             if (booking_confirm == "yes"):
                 requests["schedule"].append(req)
-            
-            print(requests)
-            print(availability)
-
-            print("\n awesome, thanks!")
+            print("\nawesome, thanks!")
             print("we'll get back to you shortly about confirmation!")
             # conditional statement -- if yes then we store the request for that time slot
             # inside the availability object, specifically for the 
@@ -97,15 +91,51 @@ def booking_function(date):
             i = i + 1
         proceed = input("\nwould you like to proceed with booking these? indicate with 'yes' or 'no': ")
 
-    # second part -- if admin proceeds, then ask him which request
-    # displays all requests and tag specific one. 
-    # tagged one changes the availability object
-    # also discards all requests that also had similar times
-r_date_input = input("\n\nPlease select the date of your session ")
+        if (proceed == 'yes'):
+            user = input("\nwhich request would you like to accept? please provide the user name: ")
+            accept_request(user)
+            # check if provided user matches any of the requests
+
+            # 
+
+# print(requests["schedule"][i][1][j])
+j = 0
+while j < len(requests["schedule"][0][1]):
+    print(requests["schedule"][0][1][j])
+    j = j + 1
+
+# second part -- if admin proceeds, then ask him which request
+# displays all requests and tag specific one. 
+# tagged one changes the availability object
+# also discards all requests that also had similar times
+def accept_request(user):
+    print(availability["schedule"])
+    i = 0
+    while i < len(requests["schedule"]):
+        if (requests["schedule"][i][0] == user):
+            # once the user matches, we get their request and replace open
+            # schedule slot with closed ones
+            j = 0
+
+            # go through requested time slots
+            while j < len(requests["schedule"][i][1]):
+                k = 0
+
+                #check if there is a match with a time slot that is open
+                while k < len(availability["schedule"]):
+                    if (availability["schedule"][k][0] == "open"):
+                        if (availability["schedule"][k][1] == requests["schedule"][i][1][j]):
+                            print(f'Booking this time slot {availability["schedule"][k][1]}')
+                            availability["schedule"][k][0] = "booked"
+                    k = k + 1
+                j = j + 1   
+            i = i + 1
+        i = i + 1
+    print(availability["schedule"])
+print("\n\nADMIN ACCEPT REQUEST")
+r_date_input = input("Select the date for which you want to see the requests: ")
 
 booking_function(r_date_input)
-
-
 
 #create a program that will process the request versus availability
 #   1) how to take user request via terminal? XX//XX
