@@ -64,23 +64,15 @@ def schedule_function(date):
             print("we'll get back to you shortly about confirmation!")
             # conditional statement -- if yes then we store the request for that time slot
             # inside the availability object, specifically for the 
-        
-        
-        # figure out how to deal with user submitting != n or != y
-        # if (proceed != "y" or proceed != "n"):
-        #     proceed = input("wrong answer. please select either y or n")
 
-
-        # booking_function():
-        #     booking_request = availability["schedule"]
-            # loop through booking_request, ask for user input
-            # print("would you like to book {availability["schedule"][i][1]}))")
     else:
         print("we don't have schedule for this day")
 
 schedule_function(r_date_input)
 
-
+# function that let's admin look at all requests, and provided
+# a username, books that request via accept_request(). also calls invalidate requests
+# and accept request.
 def booking_function(date):
     # first part returns all requests
     if (availability["date"]==date):
@@ -98,20 +90,10 @@ def booking_function(date):
 
             # 
 
-# print(requests["schedule"][i][1][j])
-j = 0
-while j < len(requests["schedule"][0][1]):
-    print(requests["schedule"][0][1][j])
-    j = j + 1
-
 # have to write a invalidate_requests function
 # because there is overlap in accepted requests
 # time slots that are affected need to be deleted
 def invalidate_requests(accepted_request):
-    print(f'requests["schedule"] {requests["schedule"]}')
-    print(f'requests["schedule"][1] {requests["schedule"][1]}')
-    print(f'requests["schedule"][1][1] {requests["schedule"][1][1]}')
-    print(f'requests["schedule"][1][1][1] {requests["schedule"][1][1][1]}')
     # loop through accepted request time slots
     i = 0
     while i < len(requests["schedule"]):
@@ -122,9 +104,11 @@ def invalidate_requests(accepted_request):
             #print(f'{requests["schedule"][i][1]}')
             k = 0
             #check if there is a match with a time slot that is open
-            while k < len(accepted_request):
-                if (accepted_request[k] == requests["schedule"][i][1][j]):
-                    print(f'found a match with accepted request time at {accepted_request[k]} and other requested time {requests["schedule"][i][1][j]} from user {requests["schedule"][i][0]}')
+            while k < len(accepted_request[1]):
+                if (accepted_request[1][k] == requests["schedule"][i][1][j]):
+                    if (accepted_request[0][k] != requests["schedule"][i][0][j]):
+                        print(f'found a match with accepted request time at {accepted_request[1][k]} and other requested time {requests["schedule"][i][1][j]} from user {requests["schedule"][i][0]}')
+                    k = k + 1
                 k = k + 1
             j = j + 1   
         i = i + 1
@@ -141,7 +125,7 @@ def accept_request(user):
             # once the user matches, we get their request and replace open
             # schedule slot with closed ones
             j = 0
-            accepted_req = requests["schedule"][i][1]
+            accepted_req = requests["schedule"][i]
             print(accepted_req)
             # go through requested time slots
             while j < len(requests["schedule"][i][1]):
@@ -160,6 +144,7 @@ def accept_request(user):
     print(availability["schedule"])
     invalidate_requests(accepted_req)
     print('invalidate request done')
+
 print("\n\nADMIN ACCEPT REQUEST")
 r_date_input = input("Select the date for which you want to see the requests: ")
 
