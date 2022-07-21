@@ -14,7 +14,7 @@ availability = {"date": "a", "schedule": [["open", "1 pm - 2 pm"],["booked", "2 
 # the admin will have the ability to look through the requests, and for 
 # a particular user, accept it. This will adjust the schedule for the times the
 # request was for, and reject the requests that were for similar times
-requests = {"date": "a", "schedule": [["user1", ["1 pm - 2 pm", "3 pm - 4 pm"]], ["user3", ["1 pm - 2 pm", "4 pm - 5 pm"]], ["user4", ["4 pm - 5 pm"]]]}
+requests = {"date": "a", "schedule": [["user1", ["1 pm - 2 pm", "3 pm - 4 pm", "4 pm - 5 pm"]], ["user3", ["1 pm - 2 pm", "4 pm - 5 pm"]], ["user4", ["4 pm - 5 pm"]]]}
 
 # create a request function
 # user is presented with available dates
@@ -105,8 +105,8 @@ def invalidate_requests(accepted_request):
             k = 0
             #check if there is a match with a time slot that is open
             while k < len(accepted_request[1]):
-                if (accepted_request[1][k] == requests["schedule"][i][1][j]):
-                    if (accepted_request[0][k] != requests["schedule"][i][0][j]):
+                if (requests["schedule"][i][1][j] == accepted_request[1][k]):
+                    if (requests["schedule"][i][0] != accepted_request[0]):
                         print(f'found a match with accepted request time at {accepted_request[1][k]} and other requested time {requests["schedule"][i][1][j]} from user {requests["schedule"][i][0]}')
                     k = k + 1
                 k = k + 1
@@ -118,7 +118,6 @@ def invalidate_requests(accepted_request):
 # tagged one changes the availability object
 # also discards all requests that also had similar times
 def accept_request(user):
-    print(availability["schedule"])
     i = 0
     while i < len(requests["schedule"]):
         if (requests["schedule"][i][0] == user):
@@ -141,7 +140,6 @@ def accept_request(user):
                 j = j + 1   
             i = i + 1
         i = i + 1
-    print(availability["schedule"])
     invalidate_requests(accepted_req)
     print('invalidate request done')
 
