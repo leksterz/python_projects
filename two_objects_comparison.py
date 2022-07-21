@@ -104,6 +104,31 @@ while j < len(requests["schedule"][0][1]):
     print(requests["schedule"][0][1][j])
     j = j + 1
 
+# have to write a invalidate_requests function
+# because there is overlap in accepted requests
+# time slots that are affected need to be deleted
+def invalidate_requests(accepted_request):
+    print(f'requests["schedule"] {requests["schedule"]}')
+    print(f'requests["schedule"][1] {requests["schedule"][1]}')
+    print(f'requests["schedule"][1][1] {requests["schedule"][1][1]}')
+    print(f'requests["schedule"][1][1][1] {requests["schedule"][1][1][1]}')
+    # loop through accepted request time slots
+    i = 0
+    while i < len(requests["schedule"]):
+        j = 0
+        #print(f'{requests["schedule"][i][1]}')
+        # go through requested time slots
+        while j < len(requests["schedule"][i][1]):
+            #print(f'{requests["schedule"][i][1]}')
+            k = 0
+            #check if there is a match with a time slot that is open
+            while k < len(accepted_request):
+                if (accepted_request[k] == requests["schedule"][i][1][j]):
+                    print(f'found a match with accepted request time at {accepted_request[k]} and other requested time {requests["schedule"][i][1][j]} from user {requests["schedule"][i][0]}')
+                k = k + 1
+            j = j + 1   
+        i = i + 1
+
 # second part -- if admin proceeds, then ask him which request
 # displays all requests and tag specific one. 
 # tagged one changes the availability object
@@ -116,7 +141,8 @@ def accept_request(user):
             # once the user matches, we get their request and replace open
             # schedule slot with closed ones
             j = 0
-
+            accepted_req = requests["schedule"][i][1]
+            print(accepted_req)
             # go through requested time slots
             while j < len(requests["schedule"][i][1]):
                 k = 0
@@ -132,10 +158,16 @@ def accept_request(user):
             i = i + 1
         i = i + 1
     print(availability["schedule"])
+    invalidate_requests(accepted_req)
+    print('invalidate request done')
 print("\n\nADMIN ACCEPT REQUEST")
 r_date_input = input("Select the date for which you want to see the requests: ")
 
 booking_function(r_date_input)
+
+
+
+
 
 #create a program that will process the request versus availability
 #   1) how to take user request via terminal? XX//XX
