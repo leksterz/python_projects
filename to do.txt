@@ -1,0 +1,5 @@
+TODO
+
+- rename data objects for availability
+- rename data objects for requests
+- add status to each request (pending, accepted, closed)
